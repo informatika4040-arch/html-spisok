@@ -1,0 +1,2058 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML. Створення списків — 9 клас НУШ</title>
+  <style>
+    :root {
+      --font-scale: 1;
+      --bg-page: linear-gradient(135deg, #fffbeb 0%, #fef3c7 35%, #e0f2fe 75%, #bae6fd 100%);
+      --bg-card: #ffffff;
+      --bg-muted: #f8fafc;
+      --bg-warm: #fffdf2;
+      --bg-code: #0f172a;
+      --text-code: #f8fafc;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --border-main: #38bdf8;
+      --border-warm: #f59e0b;
+      --border-strong: #0284c7;
+      --accent-sun: #f59e0b;
+      --accent-sky: #0284c7;
+      --accent-bg: #e0f2fe;
+      --accent-sun-bg: #fef3c7;
+      --ok-bg: #dcfce7;
+      --ok-text: #14532d;
+      --ok-border: #16a34a;
+      --warn-bg: #fef9c3;
+      --warn-text: #713f12;
+      --warn-border: #eab308;
+      --err-bg: #ffe4e6;
+      --err-text: #881337;
+      --err-border: #e11d48;
+    }
+
+    body.high-contrast {
+      --bg-page: #000000;
+      --bg-card: #0a0a0a;
+      --bg-muted: #141414;
+      --bg-warm: #171717;
+      --bg-code: #000000;
+      --text-code: #fde047;
+      --text-primary: #ffffff;
+      --text-secondary: #fde047;
+      --border-main: #fde047;
+      --border-warm: #fde047;
+      --border-strong: #fde047;
+      --accent-sun: #fde047;
+      --accent-sky: #fde047;
+      --accent-bg: #262600;
+      --accent-sun-bg: #262600;
+      --ok-bg: #052e16;
+      --ok-text: #86efac;
+      --ok-border: #4ade80;
+      --warn-bg: #422006;
+      --warn-text: #fde047;
+      --warn-border: #facc15;
+      --err-bg: #450a0a;
+      --err-text: #fca5a5;
+      --err-border: #f87171;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: calc(16px * var(--font-scale));
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-page);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 4rem;
+      transition: background 0.25s ease, color 0.2s ease;
+    }
+
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Sticky Accessibility Header */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background-color: var(--bg-card);
+      border-bottom: 3px solid var(--border-strong);
+      padding: 0.75rem 0;
+      box-shadow: 0 6px 20px -10px rgba(2, 132, 199, 0.3);
+    }
+
+    .top-bar-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.25rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, #fef3c7 0%, #e0f2fe 100%);
+      border: 2px solid #0284c7;
+      color: #0f172a;
+    }
+
+    body.high-contrast .badge-pill {
+      background: #000000;
+      color: #fde047;
+      border-color: #fde047;
+    }
+
+    .app-title {
+      margin: 0.25rem 0 0;
+      font-size: 1.45rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .a11y-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .scale-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 0.9rem;
+      background-color: var(--bg-muted);
+      border: 2px solid var(--border-main);
+    }
+
+    .scale-label {
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding-right: 0.25rem;
+    }
+
+    /* Buttons */
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 45%, #0284c7 115%);
+      color: #ffffff;
+      border: 2px solid #0369a1;
+      border-radius: 0.85rem;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 0.6rem 1.15rem;
+      min-height: 44px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+      transition: transform 0.1s ease, filter 0.15s ease;
+    }
+
+    .btn-main:hover {
+      filter: brightness(1.07);
+    }
+
+    body.high-contrast .btn-main {
+      background: #fde047;
+      color: #000000;
+      border: 3px solid #ffffff;
+      box-shadow: none;
+    }
+
+    .btn-alt {
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      border: 2px solid var(--border-strong);
+      border-radius: 0.85rem;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.5rem 0.95rem;
+      min-height: 44px;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn-alt:hover,
+    .btn-alt.is-active,
+    .btn-alt[aria-pressed="true"] {
+      background-color: var(--accent-bg);
+      border-color: var(--accent-sun);
+    }
+
+    body.high-contrast .btn-alt {
+      border-width: 2.5px;
+    }
+
+    .btn-sm {
+      min-height: 38px;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.85rem;
+    }
+
+    /* Status toast */
+    .status-toast {
+      margin-top: 0.6rem;
+      padding: 0.6rem 1rem;
+      border-radius: 0.85rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: 2px solid;
+    }
+
+    /* 4-Tab Navigation */
+    .tabs-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+      margin: 1.4rem 0;
+    }
+
+    @media (max-width: 900px) {
+      .tabs-nav {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .tabs-nav {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .tab-trigger {
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      border: 2.5px solid var(--border-main);
+      border-radius: 1rem;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      text-align: center;
+      transition: all 0.18s ease;
+    }
+
+    .tab-trigger[aria-selected="true"] {
+      background: linear-gradient(135deg, #f59e0b 0%, #0284c7 100%);
+      color: #ffffff;
+      border-color: #0369a1;
+      box-shadow: 0 8px 20px -8px rgba(2, 132, 199, 0.5);
+    }
+
+    body.high-contrast .tab-trigger[aria-selected="true"] {
+      background: #fde047;
+      color: #000000;
+      border: 3.5px solid #ffffff;
+      box-shadow: none;
+    }
+
+    /* Cards & Boxes */
+    .card-box {
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      border: 2.5px solid var(--border-main);
+      border-radius: 1.3rem;
+      padding: 1.4rem;
+      margin-bottom: 1.4rem;
+      box-shadow: 0 12px 26px -14px rgba(2, 132, 199, 0.22);
+    }
+
+    body.high-contrast .card-box {
+      border-width: 3.5px;
+      box-shadow: none;
+    }
+
+    .hero-banner {
+      border-radius: 1.1rem;
+      padding: 1.35rem 1.5rem;
+      color: #ffffff;
+      background: linear-gradient(120deg, #f59e0b 0%, #ea580c 42%, #0284c7 100%);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-banner.sky-lead {
+      background: linear-gradient(120deg, #0284c7 0%, #0ea5e9 55%, #f59e0b 100%);
+    }
+
+    body.high-contrast .hero-banner {
+      background: #1a1a00;
+      color: #fde047;
+      border: 3px solid #fde047;
+    }
+
+    .hero-eyebrow {
+      margin: 0;
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-title {
+      margin: 0.25rem 0 0.5rem;
+      font-size: 1.55rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .hero-desc {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .muted-box {
+      background-color: var(--bg-muted);
+      color: var(--text-primary);
+      border: 2px solid var(--border-main);
+      border-radius: 1.05rem;
+      padding: 1.1rem;
+    }
+
+    .warm-box {
+      background-color: var(--bg-warm);
+      color: var(--text-primary);
+      border: 2px solid var(--border-warm);
+      border-radius: 1.05rem;
+      padding: 1.1rem;
+    }
+
+    body.high-contrast .muted-box,
+    body.high-contrast .warm-box {
+      border-width: 3px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 860px) {
+      .grid-2, .grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-bottom: 0.9rem;
+      margin-bottom: 1.1rem;
+      border-bottom: 2px solid var(--border-main);
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .section-sub {
+      margin: 0.25rem 0 0;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .score-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.45rem 0.95rem;
+      border-radius: 0.9rem;
+      background-color: var(--accent-sun-bg);
+      border: 2px solid var(--border-warm);
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+
+    .tag-chip {
+      display: inline-block;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background-color: var(--accent-sun-bg);
+      border: 1.5px solid var(--accent-sun);
+    }
+
+    code.inline-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background-color: var(--accent-bg);
+      color: var(--text-primary);
+      padding: 0.12rem 0.4rem;
+      border-radius: 0.35rem;
+      font-weight: 800;
+      border: 1px solid var(--border-main);
+    }
+
+    pre.code-snippet {
+      margin: 0.6rem 0;
+      padding: 0.75rem 0.9rem;
+      border-radius: 0.75rem;
+      background-color: var(--bg-code);
+      color: var(--text-code);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.86rem;
+      overflow-x: auto;
+      line-height: 1.45;
+      border: 2px solid var(--border-strong);
+    }
+
+    /* Live Playground */
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+    }
+
+    .playground-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 860px) {
+      .playground-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    textarea.code-editor {
+      width: 100%;
+      min-height: 230px;
+      padding: 0.85rem;
+      border-radius: 0.9rem;
+      background-color: var(--bg-code);
+      color: var(--text-code);
+      border: 2.5px solid var(--border-strong);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      resize: vertical;
+    }
+
+    .preview-pane {
+      min-height: 230px;
+      padding: 1rem 1.25rem;
+      border-radius: 0.9rem;
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      border: 2.5px dashed var(--border-warm);
+    }
+
+    .preview-pane ul,
+    .preview-pane ol,
+    .preview-pane dl {
+      margin: 0.35rem 0 0.35rem 1.25rem;
+      padding-left: 0.75rem;
+    }
+
+    .preview-pane dt {
+      font-weight: 800;
+      margin-top: 0.45rem;
+      color: var(--accent-sky);
+    }
+
+    .preview-pane dd {
+      margin-left: 1.2rem;
+    }
+
+    /* Form Inputs */
+    textarea.answer-area,
+    input[type="text"].text-field {
+      width: 100%;
+      padding: 0.75rem 0.9rem;
+      border-radius: 0.85rem;
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      border: 2px solid var(--border-strong);
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    /* Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 16px;
+      border-radius: 999px;
+      background-color: var(--bg-muted);
+      border: 2px solid var(--border-strong);
+      overflow: hidden;
+      margin: 0.75rem 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #f59e0b, #0284c7);
+      transition: width 0.3s ease;
+    }
+
+    body.high-contrast .progress-fill {
+      background: #fde047;
+    }
+
+    /* Feedback blocks */
+    .fb-box {
+      margin-top: 0.75rem;
+      padding: 0.75rem 0.95rem;
+      border-radius: 0.85rem;
+      border: 2px solid;
+      font-size: 0.92rem;
+    }
+
+    .fb-ok {
+      background-color: var(--ok-bg);
+      color: var(--ok-text);
+      border-color: var(--ok-border);
+    }
+
+    .fb-warn {
+      background-color: var(--warn-bg);
+      color: var(--warn-text);
+      border-color: var(--warn-border);
+    }
+
+    .fb-err {
+      background-color: var(--err-bg);
+      color: var(--err-text);
+      border-color: var(--err-border);
+    }
+
+    .choice-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.65rem;
+    }
+
+    .quiz-option-btn {
+      width: 100%;
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .svg-wrap {
+      border-radius: 0.85rem;
+      overflow: hidden;
+      border: 2px solid var(--border-main);
+      margin: 0.65rem 0;
+      background: #ffffff;
+    }
+
+    .svg-wrap svg {
+      display: block;
+      width: 100%;
+      height: 130px;
+    }
+
+    .traffic-dot {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.35);
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sticky Top Accessibility Bar -->
+  <header class="top-bar">
+    <div class="container">
+      <div class="top-bar-inner">
+        <div>
+          <div class="badge-pill">
+            <span>9 клас НУШ • Інформатика</span>
+            <span>•</span>
+            <span>Вебтехнології</span>
+          </div>
+          <h1 class="app-title">HTML. Створення списків</h1>
+        </div>
+
+        <div class="a11y-controls">
+          <div class="scale-group" role="group" aria-label="Масштаб тексту">
+            <span class="scale-label">Шрифт:</span>
+            <button type="button" data-font-scale="1" class="font-scale-btn btn-alt btn-sm is-active" aria-pressed="true">100%</button>
+            <button type="button" data-font-scale="1.25" class="font-scale-btn btn-alt btn-sm" aria-pressed="false">125%</button>
+            <button type="button" data-font-scale="1.5" class="font-scale-btn btn-alt btn-sm" aria-pressed="false">150%</button>
+          </div>
+
+          <button type="button" id="contrast-btn" class="btn-alt" aria-pressed="false">
+            ◐ Високий контраст
+          </button>
+        </div>
+      </div>
+
+      <div id="status-box" class="status-toast hidden" role="status" aria-live="polite"></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 4-Tab Navigation in Exact Order -->
+    <nav aria-label="Розділи уроку" role="tablist" class="tabs-nav">
+      <button type="button" role="tab" id="tab-btn-1" aria-selected="true" aria-controls="panel-1" class="tab-trigger">
+        1. Теорія та тренажер
+      </button>
+      <button type="button" role="tab" id="tab-btn-2" aria-selected="false" aria-controls="panel-2" class="tab-trigger">
+        2. Картка завдань
+      </button>
+      <button type="button" role="tab" id="tab-btn-3" aria-selected="false" aria-controls="panel-3" class="tab-trigger">
+        3. Теги списків з малюнками
+      </button>
+      <button type="button" role="tab" id="tab-btn-4" aria-selected="false" aria-controls="panel-4" class="tab-trigger">
+        4. Тест (8 запитань)
+      </button>
+    </nav>
+
+    <!-- =========================================================
+         TAB 1: 1. ТЕОРІЯ ТА ТРЕНАЖЕР
+         ========================================================= -->
+    <section id="panel-1" role="tabpanel" aria-labelledby="tab-btn-1">
+      <!-- Visual Theory Comparison Cards -->
+      <article class="card-box">
+        <div class="hero-banner">
+          <p class="hero-eyebrow">Опорний конспект • 9 клас</p>
+          <h2 class="hero-title">Три види списків у HTML та їх вкладення</h2>
+          <p class="hero-desc">
+            Списки допомагають впорядкувати інформацію на вебсторінці: меню навігації, кроки інструкції, словник термінів або багаторівневий зміст.
+          </p>
+        </div>
+
+        <div class="grid-2">
+          <!-- Card 1: Unordered list -->
+          <div class="muted-box">
+            <span class="tag-chip">Вид 1 • Маркований</span>
+            <h3 style="margin: 0.45rem 0;">Маркований список: <code class="inline-code">&lt;ul&gt;</code> та <code class="inline-code">&lt;li&gt;</code></h3>
+            <p style="margin: 0.3rem 0;">
+              Використовується, коли порядок пунктів не є принциповим (наприклад, перелік компонентів ПК або товарів). Кожен пункт огортається в парний тег <code class="inline-code">&lt;li&gt;...&lt;/li&gt;</code>.
+            </p>
+            <p style="margin: 0.3rem 0; font-size: 0.92rem;">
+              <strong>Атрибут <code class="inline-code">type</code></strong> (або CSS <code class="inline-code">list-style-type</code>) змінює форму маркера:
+              <code class="inline-code">disc</code> (зафарбоване коло — за замовчуванням), <code class="inline-code">circle</code> (порожнє коло), <code class="inline-code">square</code> (квадрат).
+            </p>
+            <pre class="code-snippet">&lt;ul type="square"&gt;
+  &lt;li&gt;Процесор&lt;/li&gt;
+  &lt;li&gt;Оперативна пам’ять&lt;/li&gt;
+&lt;/ul&gt;</pre>
+          </div>
+
+          <!-- Card 2: Ordered list -->
+          <div class="muted-box">
+            <span class="tag-chip">Вид 2 • Нумерований</span>
+            <h3 style="margin: 0.45rem 0;">Нумерований список: <code class="inline-code">&lt;ol&gt;</code> та <code class="inline-code">&lt;li&gt;</code></h3>
+            <p style="margin: 0.3rem 0;">
+              Застосовується для покрокових алгоритмів, рейтингів і правил, де важлива послідовність.
+            </p>
+            <p style="margin: 0.3rem 0; font-size: 0.92rem;">
+              <strong>Атрибути <code class="inline-code">&lt;ol&gt;</code>:</strong><br/>
+              • <code class="inline-code">type</code>: <code class="inline-code">"1"</code> (цифри), <code class="inline-code">"A"</code> (великі латинські), <code class="inline-code">"a"</code> (малі латинські), <code class="inline-code">"I"</code> (великі римські), <code class="inline-code">"i"</code> (малі римські).<br/>
+              • <code class="inline-code">start="5"</code> — задає початкове число нумерації.<br/>
+              • <code class="inline-code">reversed</code> — зворотна нумерація (від більшого до меншого).
+            </p>
+            <pre class="code-snippet">&lt;ol type="I" start="3"&gt;
+  &lt;li&gt;Розділ третій&lt;/li&gt;
+  &lt;li&gt;Розділ четвертий&lt;/li&gt;
+&lt;/ol&gt;</pre>
+          </div>
+
+          <!-- Card 3: Definition list -->
+          <div class="warm-box">
+            <span class="tag-chip">Вид 3 • Список означень</span>
+            <h3 style="margin: 0.45rem 0;">Список означень: <code class="inline-code">&lt;dl&gt;</code>, <code class="inline-code">&lt;dt&gt;</code>, <code class="inline-code">&lt;dd&gt;</code></h3>
+            <p style="margin: 0.3rem 0;">
+              Ідеальний для словників термінів, глосаріїв та питань-відповідей:
+            </p>
+            <p style="margin: 0.3rem 0; font-size: 0.92rem;">
+              • <code class="inline-code">&lt;dl&gt;</code> (Description List) — контейнер усього списку означень.<br/>
+              • <code class="inline-code">&lt;dt&gt;</code> (Description Term) — назва терміна.<br/>
+              • <code class="inline-code">&lt;dd&gt;</code> (Description Details) — тлумачення терміна (браузер автоматично додає відступ зліва).
+            </p>
+            <pre class="code-snippet">&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;Мова розмітки гіпертексту.&lt;/dd&gt;
+&lt;/dl&gt;</pre>
+          </div>
+
+          <!-- Card 4: Nested lists -->
+          <div class="warm-box">
+            <span class="tag-chip">Структура • Багаторівневі</span>
+            <h3 style="margin: 0.45rem 0;">Вкладені списки (Багаторівневі)</h3>
+            <p style="margin: 0.3rem 0;">
+              Будь-який список (<code class="inline-code">&lt;ul&gt;</code> або <code class="inline-code">&lt;ol&gt;</code>) можна вкласти всередину іншого, щоб створити підпункти.
+            </p>
+            <p style="margin: 0.3rem 0; font-size: 0.92rem;">
+              <strong>Головне правило валідного HTML:</strong> вкладений список розташовується <strong>усередині</strong> тегу <code class="inline-code">&lt;li&gt;...&lt;/li&gt;</code> батьківського пункту, а не між двома <code class="inline-code">&lt;li&gt;</code>!
+            </p>
+            <pre class="code-snippet">&lt;ul&gt;
+  &lt;li&gt;Фрукти
+    &lt;ol&gt;
+      &lt;li&gt;Яблуко&lt;/li&gt;
+      &lt;li&gt;Груша&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- Live HTML List Playground / Trainer -->
+      <article class="card-box">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Live HTML-тренажер списків</h2>
+            <p class="section-sub">
+              Оберіть готовий пресет або змінюйте HTML-код власноруч — результат миттєво оновиться у вікні браузера праворуч.
+            </p>
+          </div>
+          <button type="button" id="check-syntax-btn" class="btn-main">
+            Перевірити синтаксис коду
+          </button>
+        </div>
+
+        <div class="preset-row" role="group" aria-label="Пресети HTML-списків">
+          <button type="button" data-preset="ul" class="preset-btn btn-alt is-active" aria-pressed="true">1. Маркований (&lt;ul&gt;)</button>
+          <button type="button" data-preset="ol" class="preset-btn btn-alt" aria-pressed="false">2. Нумерований із start (&lt;ol&gt;)</button>
+          <button type="button" data-preset="dl" class="preset-btn btn-alt" aria-pressed="false">3. Список означень (&lt;dl&gt;)</button>
+          <button type="button" data-preset="nested" class="preset-btn btn-alt" aria-pressed="false">4. Вкладений список</button>
+        </div>
+
+        <div class="playground-grid">
+          <div>
+            <label for="live-html-input" style="display: block; font-weight: 800; margin-bottom: 0.4rem;">
+              HTML-код (можна редагувати):
+            </label>
+            <textarea id="live-html-input" class="code-editor" spellcheck="false"></textarea>
+          </div>
+
+          <div>
+            <div style="font-weight: 800; margin-bottom: 0.4rem;">
+              Результат у браузері (Live Preview):
+            </div>
+            <div id="live-html-preview" class="preview-pane" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div id="syntax-hint-box" class="warm-box" style="margin-top: 1rem;" aria-live="polite"></div>
+      </article>
+
+      <!-- 5-Situation Mini-Trainer -->
+      <article class="card-box">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Міні-тренажер «Обери правильний тег чи атрибут» (5 ситуацій)</h2>
+            <p class="section-sub">
+              Проаналізуйте вебзавдання та оберіть оптимальну конструкцію HTML-списку.
+            </p>
+          </div>
+          <span id="mini-trainer-score" class="score-pill">Правильно: 0 / 5</span>
+        </div>
+
+        <div id="mini-trainer-list"></div>
+      </article>
+    </section>
+
+    <!-- =========================================================
+         TAB 2: 2. КАРТКА ЗАВДАНЬ
+         ========================================================= -->
+    <section id="panel-2" role="tabpanel" aria-labelledby="tab-btn-2" class="hidden">
+      <article class="card-box">
+        <div class="section-header" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
+          <div>
+            <h2 class="section-title">Диференційована картка завдань</h2>
+            <p class="section-sub">
+              Оберіть рівень складності: Варіант 1 (базовий) або Варіант 2 (аналітичний), заповніть відповіді та перевірте себе.
+            </p>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;" role="group" aria-label="Вибір варіанта">
+            <button type="button" id="btn-var-1" class="btn-alt is-active" aria-pressed="true">
+              Варіант 1 (В1 — базовий)
+            </button>
+            <button type="button" id="btn-var-2" class="btn-alt" aria-pressed="false">
+              Варіант 2 (В2 — аналітичний)
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <div id="variant-card-body"></div>
+
+      <!-- 4-item NUSH Self-Assessment Checklist -->
+      <article class="card-box">
+        <div class="section-header">
+          <div>
+            <h3 class="section-title">Чек-лист самооцінювання учня (НУШ)</h3>
+            <p class="section-sub">Позначте 4 критерії виконаної роботи для розрахунку відсотка готовності.</p>
+          </div>
+          <span id="checklist-badge" class="score-pill">Готовність: 0 / 4 (0%)</span>
+        </div>
+
+        <div class="progress-track">
+          <div id="checklist-progress-bar" class="progress-fill"></div>
+        </div>
+
+        <div id="checklist-items-box"></div>
+        <div id="checklist-status-text" class="warm-box" style="margin-top: 0.85rem; font-weight: 700;">
+          Позначте виконані критерії чек-листа вище.
+        </div>
+      </article>
+    </section>
+
+    <!-- =========================================================
+         TAB 3: 3. ТЕГИ СПИСКІВ З МАЛЮНКАМИ
+         ========================================================= -->
+    <section id="panel-3" role="tabpanel" aria-labelledby="tab-btn-3" class="hidden">
+      <article class="card-box">
+        <div class="hero-banner sky-lead">
+          <p class="hero-eyebrow">Візуальний довідник • 6 SVG-схем</p>
+          <h2 class="hero-title">Теги та атрибути списків HTML у схемах</h2>
+          <p class="hero-desc">
+            Розгляньте 6 ілюстрацій, які наочно показують будову маркованих, нумерованих, вкладених списків, списків означень та роботу атрибутів.
+          </p>
+        </div>
+
+        <div id="svg-gallery-grid" class="grid-3"></div>
+      </article>
+
+      <!-- 6-round interactive matching mini-game -->
+      <article class="card-box">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Міні-гра «Вгадай тег або атрибут за схемою» (6 раундів)</h2>
+            <p class="section-sub">
+              Подивіться на опис і схему результату в браузері та оберіть правильний тег або атрибут HTML.
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span id="game-score-badge" class="score-pill">Бали: 0 / 6</span>
+            <button type="button" id="restart-game-btn" class="btn-alt btn-sm">Спочатку</button>
+          </div>
+        </div>
+
+        <div id="game-stage-container"></div>
+      </article>
+    </section>
+
+    <!-- =========================================================
+         TAB 4: 4. ТЕСТ (8 ЗАПИТАНЬ)
+         ========================================================= -->
+    <section id="panel-4" role="tabpanel" aria-labelledby="tab-btn-4" class="hidden">
+      <article class="card-box">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Підсумковий тест: «HTML. Створення списків» (8 запитань)</h2>
+            <p class="section-sub">
+              Варіанти відповідей перемішуються за алгоритмом Фішера–Єйтса під час запуску та при повторному проходженні.
+            </p>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;">
+            <span id="quiz-answered-badge" class="score-pill">Відповідей: 0 / 8</span>
+            <span id="quiz-score-badge" class="score-pill">Бали: 0 / 8</span>
+            <button type="button" id="quiz-restart-btn" class="btn-main">Пройти ще раз</button>
+          </div>
+        </div>
+
+        <div class="progress-track">
+          <div id="quiz-progress-fill" class="progress-fill"></div>
+        </div>
+
+        <div id="quiz-summary-panel" class="fb-box hidden" style="margin-bottom: 1rem;"></div>
+
+        <div id="quiz-items-container"></div>
+      </article>
+
+      <!-- NUSH Reflection Block -->
+      <article class="card-box">
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">Рефлексія НУШ: «Світлофор впевненості» та ключове слово уроку</h2>
+            <p class="section-sub">Оцініть свій рівень засвоєння теми та запишіть головне поняття уроку.</p>
+          </div>
+        </div>
+
+        <div class="grid-3" role="group" aria-label="Світлофор впевненості">
+          <button type="button" data-traffic="green" class="traffic-btn btn-alt" style="text-align: left; padding: 0.9rem;" aria-pressed="false">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; margin-bottom: 0.3rem;">
+              <span class="traffic-dot" style="background-color: #16a34a;"></span>
+              <span>Зелений сигнал</span>
+            </div>
+            <div style="font-size: 0.88rem; color: var(--text-secondary);">Усе зрозуміло! Можу самостійно створити будь-який список в HTML.</div>
+          </button>
+
+          <button type="button" data-traffic="yellow" class="traffic-btn btn-alt" style="text-align: left; padding: 0.9rem;" aria-pressed="false">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; margin-bottom: 0.3rem;">
+              <span class="traffic-dot" style="background-color: #f59e0b;"></span>
+              <span>Жовтий сигнал</span>
+            </div>
+            <div style="font-size: 0.88rem; color: var(--text-secondary);">Тему засвоїв/ла, але варто ще потренуватися з вкладеними списками.</div>
+          </button>
+
+          <button type="button" data-traffic="red" class="traffic-btn btn-alt" style="text-align: left; padding: 0.9rem;" aria-pressed="false">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-weight: 800; margin-bottom: 0.3rem;">
+              <span class="traffic-dot" style="background-color: #e11d48;"></span>
+              <span>Червоний сигнал</span>
+            </div>
+            <div style="font-size: 0.88rem; color: var(--text-secondary);">Потрібна додаткова консультація вчителя щодо тегів і атрибутів.</div>
+          </button>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-end; margin-top: 1rem;">
+          <div style="flex: 1; min-width: 240px;">
+            <label for="reflection-keyword" style="display: block; font-weight: 800; margin-bottom: 0.35rem;">
+              Одне ключове слово або тег цього уроку для тебе:
+            </label>
+            <input
+              type="text"
+              id="reflection-keyword"
+              class="text-field"
+              placeholder="Наприклад: Вкладений список, &lt;ol&gt;, &lt;dl&gt;, атрибут start..."
+            />
+          </div>
+          <button type="button" id="save-reflection-btn" class="btn-main">
+            Зафіксувати підсумок
+          </button>
+        </div>
+
+        <div id="reflection-output" class="warm-box hidden" style="margin-top: 0.9rem; font-weight: 700;"></div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const statusBox = document.getElementById('status-box');
+      let statusTimer = null;
+
+      function showStatus(msg, type) {
+        if (!statusBox) return;
+        if (statusTimer) clearTimeout(statusTimer);
+        statusBox.textContent = msg;
+        statusBox.className = 'status-toast ' + (type === 'err' ? 'fb-err' : type === 'warn' ? 'fb-warn' : 'fb-ok');
+        statusTimer = setTimeout(() => {
+          statusBox.classList.add('hidden');
+        }, 4000);
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function fisherYatesShuffle(arr) {
+        const copy = arr.slice();
+        for (let i = copy.length - 1; i > 0; i -= 1) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const temp = copy[i];
+          copy[i] = copy[j];
+          copy[j] = temp;
+        }
+        return copy;
+      }
+
+      // =========================================================
+      // ACCESSIBILITY BAR: FONT SCALE & HIGH CONTRAST
+      // =========================================================
+      const scaleBtns = document.querySelectorAll('.font-scale-btn');
+      scaleBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const scale = btn.getAttribute('data-font-scale') || '1';
+          document.documentElement.style.setProperty('--font-scale', scale);
+          scaleBtns.forEach((b) => {
+            const act = b === btn;
+            b.classList.toggle('is-active', act);
+            b.setAttribute('aria-pressed', String(act));
+          });
+          showStatus(`Масштаб шрифту встановлено на ${Math.round(parseFloat(scale) * 100)}%.`, 'ok');
+        });
+      });
+
+      const contrastBtn = document.getElementById('contrast-btn');
+      contrastBtn.addEventListener('click', () => {
+        const isHc = document.body.classList.toggle('high-contrast');
+        contrastBtn.setAttribute('aria-pressed', String(isHc));
+        showStatus(
+          isHc ? 'Увімкнено висококонтрастний режим.' : 'Увімкнено світлу сонячну тему.',
+          'ok'
+        );
+      });
+
+      // Tab navigation
+      const tabButtons = document.querySelectorAll('[role="tab"]');
+      const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+      tabButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          tabButtons.forEach((b) => b.setAttribute('aria-selected', String(b === btn)));
+          tabPanels.forEach((p) => p.classList.toggle('hidden', p.getAttribute('aria-labelledby') !== btn.id));
+        });
+      });
+
+      // =========================================================
+      // TAB 1: LIVE HTML LIST PLAYGROUND + 5-SITUATION MINI-TRAINER
+      // =========================================================
+      const presets = {
+        ul: {
+          code: `<h3>Мої улюблені вебтехнології</h3>
+<ul type="square">
+  <li>HTML5 — структура сторінки</li>
+  <li>CSS3 — кольори та оформлення</li>
+  <li>JavaScript — інтерактивність</li>
+</ul>`,
+          hint: 'Підказка: тег <ul> створює маркований список. Спробуйте змінити type="square" на type="circle" або type="disc"!'
+        },
+        ol: {
+          code: `<h3>Етапи створення вебсайту</h3>
+<ol type="A" start="3">
+  <li>Проєктування макета сторінки</li>
+  <li>Верстка за допомогою тегів HTML</li>
+  <li>Тестування у різних браузерах</li>
+</ol>`,
+          hint: 'Підказка: атрибут type="A" вмикає великі латинські літери, а start="3" починає нумерацію з третьої літери (C). Спробуйте додати атрибут reversed!'
+        },
+        dl: {
+          code: `<h3>Міні-словник веброзробника</h3>
+<dl>
+  <dt>Тег &lt;li&gt;</dt>
+  <dd>Визначає окремий пункт маркованого або нумерованого списку.</dd>
+  <dt>Атрибут reversed</dt>
+  <dd>Змінює порядок нумерації в &lt;ol&gt; на зворотний.</dd>
+</dl>`,
+          hint: 'Підказка: у списку означень <dl> кожен термін записується у <dt>, а його пояснення — у <dd>.'
+        },
+        nested: {
+          code: `<h3>Структура шкільного порталу</h3>
+<ul>
+  <li>Для учнів
+    <ol type="1">
+      <li>Розклад уроків</li>
+      <li>Електронні підручники</li>
+    </ol>
+  </li>
+  <li>Для вчителів
+    <ul type="circle">
+      <li>Методичні матеріали</li>
+      <li>Журнал успішності</li>
+    </ul>
+  </li>
+</ul>`,
+          hint: 'Підказка: зверніть увагу, що вкладені <ol> та <ul> розташовані всередині батьківських елементів <li>...</li>!'
+        }
+      };
+
+      const liveInputEl = document.getElementById('live-html-input');
+      const livePreviewEl = document.getElementById('live-html-preview');
+      const syntaxHintEl = document.getElementById('syntax-hint-box');
+      const presetBtns = document.querySelectorAll('.preset-btn');
+
+      // Безпечний рендеринг лише дозволених тегів списків та базового форматування
+      function sanitizeListHtml(rawHtml) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(rawHtml, 'text/html');
+        const allowedTags = new Set(['UL', 'OL', 'LI', 'DL', 'DT', 'DD', 'H2', 'H3', 'H4', 'P', 'STRONG', 'B', 'EM', 'I', 'CODE', 'BR']);
+        const allowedAttrs = new Set(['type', 'start', 'reversed']);
+
+        function cleanNode(node) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            return document.createTextNode(node.textContent);
+          }
+          if (node.nodeType !== Node.ELEMENT_NODE) {
+            return document.createTextNode('');
+          }
+          if (!allowedTags.has(node.tagName)) {
+            const frag = document.createDocumentFragment();
+            Array.from(node.childNodes).forEach((child) => frag.appendChild(cleanNode(child)));
+            return frag;
+          }
+          const el = document.createElement(node.tagName.toLowerCase());
+          Array.from(node.attributes).forEach((attr) => {
+            if (allowedAttrs.has(attr.name.toLowerCase())) {
+              el.setAttribute(attr.name.toLowerCase(), attr.value);
+            }
+          });
+          Array.from(node.childNodes).forEach((child) => el.appendChild(cleanNode(child)));
+          return el;
+        }
+
+        const wrapper = document.createDocumentFragment();
+        Array.from(doc.body.childNodes).forEach((child) => wrapper.appendChild(cleanNode(child)));
+        return wrapper;
+      }
+
+      function updateLivePreview() {
+        livePreviewEl.innerHTML = '';
+        livePreviewEl.appendChild(sanitizeListHtml(liveInputEl.value));
+      }
+
+      function loadPreset(key) {
+        const item = presets[key] || presets.ul;
+        liveInputEl.value = item.code;
+        syntaxHintEl.innerHTML = `<strong>Порада тренажера:</strong> ${escapeHtml(item.hint)}`;
+        presetBtns.forEach((b) => {
+          const isAct = b.getAttribute('data-preset') === key;
+          b.classList.toggle('is-active', isAct);
+          b.setAttribute('aria-pressed', String(isAct));
+        });
+        updateLivePreview();
+      }
+
+      presetBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          loadPreset(btn.getAttribute('data-preset'));
+        });
+      });
+
+      liveInputEl.addEventListener('input', updateLivePreview);
+
+      document.getElementById('check-syntax-btn').addEventListener('click', () => {
+        const code = liveInputEl.value;
+        const issues = [];
+
+        const hasListTag = /<(ul|ol|dl)\b/i.test(code);
+        if (!hasListTag) {
+          issues.push('У коді не знайдено контейнера списку (<ul>, <ol> або <dl>).');
+        }
+
+        const openUl = (code.match(/<ul\b/gi) || []).length;
+        const closeUl = (code.match(/<\/ul>/gi) || []).length;
+        if (openUl !== closeUl) issues.push(`Невідповідність тегів <ul> (${openUl}) та </ul> (${closeUl}).`);
+
+        const openOl = (code.match(/<ol\b/gi) || []).length;
+        const closeOl = (code.match(/<\/ol>/gi) || []).length;
+        if (openOl !== closeOl) issues.push(`Невідповідність тегів <ol> (${openOl}) та </ol> (${closeOl}).`);
+
+        const openLi = (code.match(/<li\b/gi) || []).length;
+        const closeLi = (code.match(/<\/li>/gi) || []).length;
+        if (openLi !== closeLi) issues.push(`Перевірте закриття тегів <li>: відкрито ${openLi}, закрито ${closeLi}.`);
+
+        // Перевірка, чи не вставлено <ul> або <ol> напряму всередину <ul>/<ol> поза <li>
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(code, 'text/html');
+        const invalidDirectNested = doc.querySelectorAll('ul > ul, ul > ol, ol > ul, ol > ol');
+        if (invalidDirectNested.length > 0) {
+          issues.push('Помилка вкладення: вкладений список <ul> або <ol> має розміщуватися всередині пункту <li>...</li>!');
+        }
+
+        if (issues.length === 0) {
+          syntaxHintEl.className = 'fb-box fb-ok';
+          syntaxHintEl.innerHTML = '<strong>Синтаксис коректний!</strong> Усі теги списків правильно відкрито, закрито та вкладено.';
+          showStatus('Перевірку пройдено: помилок у структурі списку не виявлено!', 'ok');
+        } else {
+          syntaxHintEl.className = 'fb-box fb-warn';
+          syntaxHintEl.innerHTML = '<strong>Знайдено зауваження:</strong><ul style="margin: 0.35rem 0 0 1.2rem;">' +
+            issues.map((i) => `<li>${escapeHtml(i)}</li>`).join('') +
+            '</ul>';
+          showStatus('Є підказки щодо синтаксису — перегляньте блок під редактором.', 'warn');
+        }
+      });
+
+      loadPreset('ul');
+
+      // 5-Situation Mini-Trainer
+      const miniTrainerCases = [
+        {
+          situation: '1. На сторінці кулінарного блогу потрібно оформити покроковий рецепт приготування борщу, де кожен крок виконується строго по черзі.',
+          hint: 'Підказка: коли порядок кроків важливий, використовують нумерований список.',
+          options: ['<ol> із пунктами <li>', '<ul> із пунктами <li>', '<dl> із тегами <dt> та <dd>'],
+          correct: 0,
+          explanation: 'Тег <ol> (Ordered List) створює нумерований список, який ідеально підходить для покрокових інструкцій та рецептів.'
+        },
+        {
+          situation: '2. Верстальник створює глосарій інформатичних термінів (наприклад, «Браузер», «Сервер», «Гіперпосилання») з поясненням кожного поняття.',
+          hint: 'Підказка: для пари «термін — його тлумачення» існує спеціальний вид списку.',
+          options: ['<ol type="I">', '<dl> з тегами <dt> та <dd>', '<ul type="disc">'],
+          correct: 1,
+          explanation: 'Список означень <dl> поєднує термін (<dt>) та його опис (<dd>).'
+        },
+        {
+          situation: '3. Потрібно продовжити нумерований список із попередньої сторінки, щоб перший пункт нового списку мав номер 7.',
+          hint: 'Підказка: цей атрибут тегу <ol> задає початкове значення лічильника.',
+          options: ['<ol start="7">', '<ol type="7">', '<ol reversed="7">'],
+          correct: 0,
+          explanation: 'Атрибут start="7" у тегу <ol> вказує браузеру розпочати нумерацію з числа 7.'
+        },
+        {
+          situation: '4. На сайті кінотеатру публікують рейтинг «ТОП-10 фільмів року», який має починатися з 10-го місця і йти до 1-го.',
+          hint: 'Підказка: потрібен логічний атрибут тегу <ol>, який розвертає нумерацію у зворотному напрямку.',
+          options: ['<ol reversed>', '<ul type="square">', '<ol type="a">'],
+          correct: 0,
+          explanation: 'Атрибут reversed змінює напрямок нумерації списку <ol> на зворотний (10, 9, 8... 1).'
+        },
+        {
+          situation: '5. Учень створює дворівневий список «Області України → Міста» і хоче вставити підсписок міст до пункту «Полтавська область». Куди правильно помістити вкладений <ul>?',
+          hint: 'Підказка: дочірній список завжди є частиною конкретного елемента <li>.',
+          options: ['Всередину тегу <li>Полтавська область ... </li> перед закриваючим </li>', 'Після закриваючого тегу </li>, але перед наступним <li>', 'Поза межами батьківського списку <ul>'],
+          correct: 0,
+          explanation: 'За стандартом HTML вкладений список розташовується всередині тегу <li>...</li> того пункту, до якого він належить.'
+        }
+      ];
+
+      const miniTrainerListEl = document.getElementById('mini-trainer-list');
+      const miniTrainerScoreEl = document.getElementById('mini-trainer-score');
+      const miniAnswers = {};
+      const miniHintsShown = {};
+
+      function renderMiniTrainer() {
+        let correctCount = 0;
+        miniTrainerCases.forEach((item, idx) => {
+          if (miniAnswers[idx] === item.correct) correctCount += 1;
+        });
+        miniTrainerScoreEl.textContent = `Правильно: ${correctCount} / ${miniTrainerCases.length}`;
+
+        miniTrainerListEl.innerHTML = miniTrainerCases
+          .map((item, idx) => {
+            const chosen = miniAnswers[idx];
+            const isAnswered = chosen !== undefined;
+            const isRight = isAnswered && chosen === item.correct;
+            const showHint = Boolean(miniHintsShown[idx]);
+
+            return `
+              <div class="muted-box" style="margin-bottom: 0.9rem;">
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 0.5rem;">
+                  <p style="margin: 0; font-weight: 800; flex: 1;">${escapeHtml(item.situation)}</p>
+                  <button type="button" data-hint-idx="${idx}" class="toggle-hint-btn btn-alt btn-sm">
+                    ${showHint ? 'Сховати підказку' : 'Підказка'}
+                  </button>
+                </div>
+
+                ${
+                  showHint
+                    ? `<div class="warm-box" style="margin-top: 0.6rem; padding: 0.6rem 0.85rem; font-size: 0.9rem;">${escapeHtml(item.hint)}</div>`
+                    : ''
+                }
+
+                <div class="choice-row">
+                  ${item.options
+                    .map((opt, oIdx) => {
+                      let cls = 'mt-opt-btn btn-alt';
+                      if (isAnswered) {
+                        if (oIdx === item.correct) cls += ' fb-ok';
+                        else if (oIdx === chosen) cls += ' fb-err';
+                      }
+                      return `
+                        <button
+                          type="button"
+                          data-mt-idx="${idx}"
+                          data-mt-opt="${oIdx}"
+                          class="${cls}"
+                          aria-pressed="${String(chosen === oIdx)}"
+                        >
+                          ${escapeHtml(opt)}
+                        </button>
+                      `;
+                    })
+                    .join('')}
+                </div>
+
+                ${
+                  isAnswered
+                    ? `<div class="fb-box ${isRight ? 'fb-ok' : 'fb-warn'}">
+                        <strong>${isRight ? 'Вірно!' : 'Пояснення:'}</strong> ${escapeHtml(item.explanation)}
+                      </div>`
+                    : ''
+                }
+              </div>
+            `;
+          })
+          .join('');
+
+        miniTrainerListEl.querySelectorAll('.toggle-hint-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.getAttribute('data-hint-idx'));
+            miniHintsShown[idx] = !miniHintsShown[idx];
+            renderMiniTrainer();
+          });
+        });
+
+        miniTrainerListEl.querySelectorAll('.mt-opt-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = Number(btn.getAttribute('data-mt-idx'));
+            const opt = Number(btn.getAttribute('data-mt-opt'));
+            miniAnswers[idx] = opt;
+            renderMiniTrainer();
+          });
+        });
+      }
+
+      renderMiniTrainer();
+
+      // =========================================================
+      // TAB 2: DIFFERENTIATED TASK CARDS (В1 / В2) + 4-ITEM CHECKLIST
+      // =========================================================
+      const variantsData = {
+        1: {
+          title: 'Варіант 1 (В1 — базовий рівень): Створення основних видів списків HTML',
+          goal: 'Мета: закріпити синтаксис маркованого, нумерованого списку та списку означень.',
+          tasks: [
+            {
+              id: 'v1_t1',
+              prompt: 'Завдання 1. Напишіть HTML-код маркованого списку з квадратними маркерами (type="square") із 3 шкільних предметів.',
+              placeholder: '<ul type="square">\n  <li>...</li>\n</ul>'
+            },
+            {
+              id: 'v1_t2',
+              prompt: 'Завдання 2. Напишіть HTML-код нумерованого списку великими римськими цифрами (type="I"), що починається з IV (start="4") і містить 2 пункти.',
+              placeholder: '<ol type="I" start="4">\n  <li>...</li>\n</ol>'
+            },
+            {
+              id: 'v1_t3',
+              prompt: 'Завдання 3. Створіть список означень (<dl>) для одного терміна з інформатики (використайте <dt> та <dd>).',
+              placeholder: '<dl>\n  <dt>...</dt>\n  <dd>...</dd>\n</dl>'
+            }
+          ],
+          hintExample: 'Приклад-підказка для В1:\n1) <ul type="square"><li>Інформатика</li><li>Алгебра</li><li>Фізика</li></ul>\n2) <ol type="I" start="4"><li>Четвертий етап</li><li>П’ятий етап</li></ol>\n3) <dl><dt>Сервер</dt><dd>Потужний комп’ютер для зберігання та обробки даних у мережі.</dd></dl>'
+        },
+        2: {
+          title: 'Варіант 2 (В2 — аналітичний рівень): Вкладені списки та пошук помилок у розмітці',
+          goal: 'Мета: навчитися будувати багаторівневі списки та виправляти синтаксичні помилки в HTML-коді.',
+          tasks: [
+            {
+              id: 'v2_t1',
+              prompt: 'Завдання 1. Напишіть HTML-код дворівневого списку «Пори року» (2 пори року як пункти <ul>, а всередині кожної — нумерований список <ol type="a"> із 2 місяців).',
+              placeholder: '<ul>\n  <li>Весна\n    <ol type="a">...</ol>\n  </li>\n</ul>'
+            },
+            {
+              id: 'v2_t2',
+              prompt: 'Завдання 2. Знайдіть і виправте 2 помилки в коді: <ol type="1" begin="5"><li>Пункт 1<ul><li>Підпункт</li></ul></ol>',
+              placeholder: 'Запишіть виправлений код і поясніть помилки...'
+            },
+            {
+              id: 'v2_t3',
+              prompt: 'Завдання 3. Поясніть, у яких випадках на вебсайті краще застосувати список означень <dl>, а не звичайний маркований список <ul>.',
+              placeholder: 'Ваше обґрунтування...'
+            }
+          ],
+          hintExample: 'Приклад-підказка для В2:\nПомилки в коді Завдання 2: 1) замість неіснуючого атрибута begin="5" потрібно використати start="5"; 2) не закрито тег </li> після вкладеного списку <ul>...</ul>.'
+        }
+      };
+
+      const variantBodyEl = document.getElementById('variant-card-body');
+      const btnVar1 = document.getElementById('btn-var-1');
+      const btnVar2 = document.getElementById('btn-var-2');
+      const savedNotes = {};
+      let showVariantHint = false;
+
+      function renderVariant(num) {
+        btnVar1.classList.toggle('is-active', num === 1);
+        btnVar1.setAttribute('aria-pressed', String(num === 1));
+        btnVar2.classList.toggle('is-active', num === 2);
+        btnVar2.setAttribute('aria-pressed', String(num === 2));
+
+        const data = variantsData[num];
+        variantBodyEl.innerHTML = `
+          <article class="card-box">
+            <div class="section-header">
+              <div>
+                <h3 class="section-title">${escapeHtml(data.title)}</h3>
+                <p class="section-sub">${escapeHtml(data.goal)}</p>
+              </div>
+            </div>
+
+            ${data.tasks
+              .map(
+                (t) => `
+              <div class="muted-box" style="margin-bottom: 0.9rem;">
+                <label for="${t.id}" style="display: block; font-weight: 800; margin-bottom: 0.45rem;">${escapeHtml(t.prompt)}</label>
+                <textarea
+                  id="${t.id}"
+                  rows="3"
+                  placeholder="${escapeHtml(t.placeholder)}"
+                  class="variant-note-input answer-area"
+                >${escapeHtml(savedNotes[t.id] || '')}</textarea>
+              </div>
+            `
+              )
+              .join('')}
+
+            <div style="display: flex; flex-wrap: wrap; gap: 0.6rem;">
+              <button type="button" id="toggle-var-hint-btn" class="btn-alt">
+                ${showVariantHint ? 'Сховати приклад-підказку' : 'Показати приклад-підказку'}
+              </button>
+              <button type="button" id="save-var-notes-btn" class="btn-main">
+                Зберегти та перевірити заповнення
+              </button>
+            </div>
+
+            ${
+              showVariantHint
+                ? `<pre class="code-snippet" style="margin-top: 0.9rem; white-space: pre-wrap;">${escapeHtml(data.hintExample)}</pre>`
+                : ''
+            }
+          </article>
+        `;
+
+        variantBodyEl.querySelectorAll('.variant-note-input').forEach((ta) => {
+          ta.addEventListener('input', () => {
+            savedNotes[ta.id] = ta.value;
+          });
+        });
+
+        document.getElementById('toggle-var-hint-btn').addEventListener('click', () => {
+          showVariantHint = !showVariantHint;
+          renderVariant(num);
+        });
+
+        document.getElementById('save-var-notes-btn').addEventListener('click', () => {
+          const filled = data.tasks.filter((t) => (savedNotes[t.id] || '').trim().length > 0).length;
+          if (filled === 0) {
+            showStatus('Заповніть хоча б одне поле відповіді у картці завдань.', 'warn');
+          } else {
+            showStatus(`Відповіді збережено (заповнено ${filled} із ${data.tasks.length} завдань).`, 'ok');
+          }
+        });
+      }
+
+      btnVar1.addEventListener('click', () => {
+        showVariantHint = false;
+        renderVariant(1);
+      });
+      btnVar2.addEventListener('click', () => {
+        showVariantHint = false;
+        renderVariant(2);
+      });
+      renderVariant(1);
+
+      // 4-item NUSH Self-Assessment Checklist
+      const checklistCriteria = [
+        'Розрізняю теги маркованого (<ul>), нумерованого (<ol>) та списку означень (<dl>).',
+        'Умію застосовувати атрибути type, start та reversed для налаштування вигляду списку.',
+        'Знаю правило вкладених списків: дочірній список розміщується всередині тегу <li>...</li>.',
+        'Виконав/ла завдання обраного варіанта картки (В1 або В2) та перевірив/ла закриття всіх тегів.'
+      ];
+      const checklistChecked = new Set();
+      const checklistBoxEl = document.getElementById('checklist-items-box');
+      const checklistBadgeEl = document.getElementById('checklist-badge');
+      const checklistProgressEl = document.getElementById('checklist-progress-bar');
+      const checklistStatusEl = document.getElementById('checklist-status-text');
+
+      function renderChecklist() {
+        const done = checklistChecked.size;
+        const total = checklistCriteria.length;
+        const pct = Math.round((done / total) * 100);
+
+        checklistBadgeEl.textContent = `Готовність: ${done} / ${total} (${pct}%)`;
+        checklistProgressEl.style.width = `${pct}%`;
+
+        if (done === 0) {
+          checklistStatusEl.textContent = 'Позначте виконані критерії чек-листа вище.';
+        } else if (done < total) {
+          checklistStatusEl.textContent = `Виконано ${done} із ${total} критеріїв (${pct}%). Завершіть решту пунктів для повної готовності.`;
+        } else {
+          checklistStatusEl.textContent = 'Готовність 100%! Ви успішно опанували створення списків в HTML.';
+        }
+
+        checklistBoxEl.innerHTML = checklistCriteria
+          .map(
+            (text, idx) => `
+          <label class="muted-box" style="display: flex; align-items: flex-start; gap: 0.7rem; margin-bottom: 0.55rem; cursor: pointer;">
+            <input type="checkbox" data-check-idx="${idx}" ${checklistChecked.has(idx) ? 'checked' : ''} style="width: 20px; height: 20px; margin-top: 0.2rem; cursor: pointer;" />
+            <span>${escapeHtml(text)}</span>
+          </label>
+        `
+          )
+          .join('');
+
+        checklistBoxEl.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+          cb.addEventListener('change', () => {
+            const idx = Number(cb.getAttribute('data-check-idx'));
+            if (cb.checked) checklistChecked.add(idx);
+            else checklistChecked.delete(idx);
+            renderChecklist();
+          });
+        });
+      }
+
+      renderChecklist();
+
+      // =========================================================
+      // TAB 3: 6 SVG DIAGRAMS GALLERY + 6-ROUND MATCHING MINI-GAME
+      // =========================================================
+      const svgGalleryData = [
+        {
+          title: '1. Тег <ul> — маркований список',
+          badge: 'Unordered List',
+          desc: 'Створює список із графічними маркерами, коли послідовність пунктів не важлива.',
+          svg: `<svg viewBox="0 0 240 130" role="img" aria-label="Схема маркованого списку ul">
+            <rect x="6" y="6" width="228" height="118" rx="12" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+            <rect x="20" y="16" width="76" height="24" rx="6" fill="#0284c7"/>
+            <text x="34" y="32" font-size="13" font-weight="800" fill="#ffffff">&lt;ul&gt;</text>
+            <circle cx="38" cy="58" r="5" fill="#f59e0b"/>
+            <rect x="52" y="51" width="150" height="14" rx="4" fill="#ffffff" stroke="#0284c7" stroke-width="1.5"/>
+            <circle cx="38" cy="80" r="5" fill="#f59e0b"/>
+            <rect x="52" y="73" width="130" height="14" rx="4" fill="#ffffff" stroke="#0284c7" stroke-width="1.5"/>
+            <circle cx="38" cy="102" r="5" fill="#f59e0b"/>
+            <rect x="52" y="95" width="142" height="14" rx="4" fill="#ffffff" stroke="#0284c7" stroke-width="1.5"/>
+          </svg>`
+        },
+        {
+          title: '2. Тег <ol> — нумерований список',
+          badge: 'Ordered List',
+          desc: 'Автоматично нумерує пункти (1, 2, 3... або A, B, C... чи I, II, III...).',
+          svg: `<svg viewBox="0 0 240 130" role="img" aria-label="Схема нумерованого списку ol">
+            <rect x="6" y="6" width="228" height="118" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+            <rect x="20" y="16" width="76" height="24" rx="6" fill="#d97706"/>
+            <text x="34" y="32" font-size="13" font-weight="800" fill="#ffffff">&lt;ol&gt;</text>
+            <text x="28" y="62" font-size="14" font-weight="900" fill="#0369a1">1.</text>
+            <rect x="52" y="51" width="150" height="14" rx="4" fill="#ffffff" stroke="#d97706" stroke-width="1.5"/>
+            <text x="28" y="84" font-size="14" font-weight="900" fill="#0369a1">2.</text>
+            <rect x="52" y="73" width="135" height="14" rx="4" fill="#ffffff" stroke="#d97706" stroke-width="1.5"/>
+            <text x="28" y="106" font-size="14" font-weight="900" fill="#0369a1">3.</text>
+            <rect x="52" y="95" width="145" height="14" rx="4" fill="#ffffff" stroke="#d97706" stroke-width="1.5"/>
+          </svg>`
+        },
+        {
+          title: '3. Тег <li> — елемент списку',
+          badge: 'List Item',
+          desc: 'Парний тег <li>...</li> огортає кожен окремий рядок усередині <ul> або <ol>.',
+          svg: `<svg viewBox="0 0 240 130" role="img" aria-label="Схема елемента списку li">
+            <rect x="6" y="6" width="228" height="118" rx="12" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+            <rect x="20" y="38" width="200" height="54" rx="10" fill="#ffffff" stroke="#f59e0b" stroke-width="2.5"/>
+            <rect x="28" y="51" width="42" height="28" rx="6" fill="#0284c7"/>
+            <text x="35" y="69" font-size="12" font-weight="800" fill="#ffffff">&lt;li&gt;</text>
+            <text x="80" y="69" font-size="13" font-weight="800" fill="#0f172a">Текст пункту</text>
+            <rect x="166" y="51" width="46" height="28" rx="6" fill="#0284c7"/>
+            <text x="171" y="69" font-size="12" font-weight="800" fill="#ffffff">&lt;/li&gt;</text>
+          </svg>`
+        },
+        {
+          title: '4. Теги <dl>, <dt>, <dd>',
+          badge: 'Description List',
+          desc: 'Список означень: <dl> — контейнер, <dt> — термін, <dd> — опис терміна з відступом.',
+          svg: `<svg viewBox="0 0 240 130" role="img" aria-label="Схема списку означень dl dt dd">
+            <rect x="6" y="6" width="228" height="118" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+            <rect x="20" y="18" width="88" height="24" rx="6" fill="#0369a1"/>
+            <text x="28" y="34" font-size="12" font-weight="800" fill="#ffffff">&lt;dt&gt; Термін</text>
+            <rect x="46" y="48" width="170" height="24" rx="6" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+            <text x="54" y="64" font-size="11" font-weight="700" fill="#0f172a">&lt;dd&gt; Тлумачення терміна</text>
+            <rect x="20" y="80" width="88" height="24" rx="6" fill="#0369a1"/>
+            <text x="28" y="96" font-size="12" font-weight="800" fill="#ffffff">&lt;dt&gt; Термін 2</text>
+          </svg>`
+        },
+        {
+          title: '5. Вкладені списки',
+          badge: 'Nested Lists',
+          desc: 'Багаторівнева структура: дочірній список вставляється всередину батьківського <li>...</li>.',
+          svg: `<svg viewBox="0 0 240 130" role="img" aria-label="Схема вкладеного списку">
+            <rect x="6" y="6" width="228" height="118" rx="12" fill="#e0f2fe" stroke="#0284c7" stroke-width="2.5"/>
+            <rect x="20" y="16" width="200" height="98" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+            <text x="30" y="35" font-size="12" font-weight="800" fill="#0f172a">• Головний пункт &lt;li&gt;</text>
+            <rect x="44" y="43" width="162" height="52" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+            <text x="54" y="62" font-size="11" font-weight="800" fill="#0369a1">1. Вкладений підпункт</text>
+            <text x="54" y="80" font-size="11" font-weight="800" fill="#0369a1">2. Вкладений підпункт</text>
+            <text x="30" y="108" font-size="11" font-weight="800" fill="#0284c7">&lt;/li&gt;</text>
+          </svg>`
+        },
+        {
+          title: '6. Атрибути type, start, reversed',
+          badge: 'List Attributes',
+          desc: 'Керують символом маркера/нумерації (type), стартовим числом (start) і зворотним порядком (reversed).',
+          svg: `<svg viewBox="0 0 240 130" role="img" aria-label="Схема атрибутів списку">
+            <rect x="6" y="6" width="228" height="118" rx="12" fill="#fef3c7" stroke="#d97706" stroke-width="2.5"/>
+            <rect x="22" y="20" width="196" height="24" rx="6" fill="#0284c7"/>
+            <text x="34" y="36" font-size="12" font-weight="800" fill="#ffffff">type="I"  →  I, II, III, IV</text>
+            <rect x="22" y="52" width="196" height="24" rx="6" fill="#f59e0b"/>
+            <text x="34" y="68" font-size="12" font-weight="800" fill="#0f172a">start="5" →  5, 6, 7, 8</text>
+            <rect x="22" y="84" width="196" height="24" rx="6" fill="#16a34a"/>
+            <text x="34" y="100" font-size="12" font-weight="800" fill="#ffffff">reversed →  3, 2, 1</text>
+          </svg>`
+        }
+      ];
+
+      document.getElementById('svg-gallery-grid').innerHTML = svgGalleryData
+        .map(
+          (card) => `
+        <article class="muted-box" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.4rem;">
+              <h3 style="margin: 0; font-size: 1.05rem; font-weight: 900;">${escapeHtml(card.title)}</h3>
+              <span class="tag-chip">${escapeHtml(card.badge)}</span>
+            </div>
+            <div class="svg-wrap">${card.svg}</div>
+            <p style="margin: 0.4rem 0 0; font-size: 0.92rem;">${escapeHtml(card.desc)}</p>
+          </div>
+        </article>
+      `
+        )
+        .join('');
+
+      // 6-Round Interactive Matching Mini-Game
+      const gameRounds = [
+        {
+          clue: 'Раунд 1: На схемі пункти позначені зафарбованими квадратами (■), а порядок рядків не має значення. Який тег та атрибут використано?',
+          options: ['<ul type="square">', '<ol type="square">', '<dl type="square">'],
+          correct: 0,
+          explain: 'Маркований список створюється тегом <ul>, а квадратні маркери задає атрибут type="square".'
+        },
+        {
+          clue: 'Раунд 2: На схемі пункти пронумеровані римськими цифрами V, VI, VII. Яка відкриваюча конструкція дає такий результат?',
+          options: ['<ol type="I" start="5">', '<ol type="i" start="5">', '<ul type="I" start="5">'],
+          correct: 0,
+          explain: 'Великі римські цифри задає type="I", а старт із п’ятого номера (V) — атрибут start="5".'
+        },
+        {
+          clue: 'Раунд 3: У словнику термін вирівняно по лівому краю жирним шрифтом, а його визначення нижче має відступ вправо. Яка трійка тегів це створює?',
+          options: ['<dl>, <dt>, <dd>', '<ul>, <li>, <p>', '<ol>, <th>, <td>'],
+          correct: 0,
+          explain: 'Список означень складається з контейнера <dl>, терміна <dt> та опису <dd>.'
+        },
+        {
+          clue: 'Раунд 4: У нумерованому списку з 4 елементів першим стоїть номер 4, потім 3, 2, 1. Який атрибут додано до тегу <ol>?',
+          options: ['reversed', 'backward', 'desc'],
+          correct: 0,
+          explain: 'Логічний атрибут reversed вмикає зворотну нумерацію в елементі <ol>.'
+        },
+        {
+          clue: 'Раунд 5: Який парний тег обов’язково огортає кожен окремий пункт як у маркованому <ul>, так і в нумерованому <ol> списку?',
+          options: ['<li>...</li>', '<dd>...</dd>', '<item>...</item>'],
+          correct: 0,
+          explain: 'Елемент <li> (List Item) визначає кожен окремий пункт у списках <ul> та <ol>.'
+        },
+        {
+          clue: 'Раунд 6: На схемі всередині другого пункту нумерованого списку <ol> розміщено маркований підсписок <ul>. Де в коді має стояти закриваючий тег </li> другого пункту?',
+          options: ['Після закриваючого тегу </ul> вкладеного списку', 'Перед відкриваючим тегом <ul> вкладеного списку', 'Вкладені списки в HTML заборонені'],
+          correct: 0,
+          explain: 'Вкладений список є частиною батьківського пункту, тому закриваючий тег </li> ставиться після </ul>.'
+        }
+      ];
+
+      let currentRound = 0;
+      let gameScore = 0;
+      let roundAnswered = false;
+      let lastRoundChoice = -1;
+
+      const gameStageEl = document.getElementById('game-stage-container');
+      const gameScoreBadge = document.getElementById('game-score-badge');
+
+      function renderGameStage() {
+        gameScoreBadge.textContent = `Бали: ${gameScore} / ${gameRounds.length}`;
+
+        if (currentRound >= gameRounds.length) {
+          gameStageEl.innerHTML = `
+            <div class="warm-box">
+              <h3 style="margin-top: 0;">Гру завершено! Ваш результат: ${gameScore} із ${gameRounds.length} балів.</h3>
+              <p>
+                ${
+                  gameScore >= 5
+                    ? 'Відмінний результат! Ви вільно орієнтуєтеся в тегах та атрибутах HTML-списків.'
+                    : 'Гарна спроба! Перегляньте SVG-схеми в галереї вище та зіграйте ще раз.'
+                }
+              </p>
+              <button type="button" id="play-again-game-btn" class="btn-main">Зіграти ще раз</button>
+            </div>
+          `;
+          document.getElementById('play-again-game-btn').addEventListener('click', () => {
+            currentRound = 0;
+            gameScore = 0;
+            roundAnswered = false;
+            lastRoundChoice = -1;
+            renderGameStage();
+          });
+          return;
+        }
+
+        const rObj = gameRounds[currentRound];
+        const isRight = roundAnswered && lastRoundChoice === rObj.correct;
+
+        gameStageEl.innerHTML = `
+          <div class="muted-box">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 800; margin-bottom: 0.5rem;">
+              <span>Крок ${currentRound + 1} із ${gameRounds.length}</span>
+              <span>Оберіть 1 варіант</span>
+            </div>
+            <p style="margin: 0 0 0.85rem; font-size: 1.05rem; font-weight: 800;">${escapeHtml(rObj.clue)}</p>
+            <div class="grid-3">
+              ${rObj.options
+                .map((opt, idx) => {
+                  let cls = 'game-opt-btn btn-alt';
+                  if (roundAnswered) {
+                    if (idx === rObj.correct) cls += ' fb-ok';
+                    else if (idx === lastRoundChoice) cls += ' fb-err';
+                  }
+                  return `
+                    <button
+                      type="button"
+                      data-g-opt="${idx}"
+                      ${roundAnswered ? 'disabled' : ''}
+                      class="${cls}"
+                    >
+                      ${escapeHtml(opt)}
+                    </button>
+                  `;
+                })
+                .join('')}
+            </div>
+            ${
+              roundAnswered
+                ? `<div class="fb-box ${isRight ? 'fb-ok' : 'fb-warn'}">
+                    <p style="margin: 0 0 0.65rem;"><strong>${isRight ? 'Правильно!' : 'Зверніть увагу:'}</strong> ${escapeHtml(rObj.explain)}</p>
+                    <button type="button" id="next-game-round-btn" class="btn-main btn-sm">
+                      ${currentRound + 1 < gameRounds.length ? 'Наступний раунд →' : 'Показати підсумок гри'}
+                    </button>
+                  </div>`
+                : ''
+            }
+          </div>
+        `;
+
+        gameStageEl.querySelectorAll('.game-opt-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            if (roundAnswered) return;
+            lastRoundChoice = Number(btn.getAttribute('data-g-opt'));
+            roundAnswered = true;
+            if (lastRoundChoice === rObj.correct) gameScore += 1;
+            renderGameStage();
+          });
+        });
+
+        const nextBtn = document.getElementById('next-game-round-btn');
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => {
+            currentRound += 1;
+            roundAnswered = false;
+            lastRoundChoice = -1;
+            renderGameStage();
+          });
+        }
+      }
+
+      document.getElementById('restart-game-btn').addEventListener('click', () => {
+        currentRound = 0;
+        gameScore = 0;
+        roundAnswered = false;
+        lastRoundChoice = -1;
+        renderGameStage();
+      });
+
+      renderGameStage();
+
+      // =========================================================
+      // TAB 4: 8-QUESTION QUIZ (FISHER-YATES SHUFFLE) + REFLECTION
+      // =========================================================
+      const baseQuizData = [
+        {
+          q: '1. Який тег використовується для створення маркованого списку в HTML?',
+          options: [
+            { text: '<ul>', correct: true },
+            { text: '<ol>', correct: false },
+            { text: '<dl>', correct: false },
+            { text: '<list>', correct: false }
+          ],
+          explanation: 'Тег <ul> (Unordered List) створює маркований (невпорядкований) список.'
+        },
+        {
+          q: '2. Який тег визначає кожен окремий пункт у маркованому або нумерованому списку?',
+          options: [
+            { text: '<li>', correct: true },
+            { text: '<dt>', correct: false },
+            { text: '<dd>', correct: false },
+            { text: '<lu>', correct: false }
+          ],
+          explanation: 'Елемент <li> (List Item) огортає кожен окремий пункт списків <ul> та <ol>.'
+        },
+        {
+          q: '3. Яке значення атрибута type у тегу <ol> вмикає нумерацію великими латинськими літерами (A, B, C...)?',
+          options: [
+            { text: 'type="A"', correct: true },
+            { text: 'type="a"', correct: false },
+            { text: 'type="I"', correct: false },
+            { text: 'type="1"', correct: false }
+          ],
+          explanation: 'Значення type="A" задає великі латинські літери, тоді як type="a" — малі, а type="I" — римські цифри.'
+        },
+        {
+          q: '4. За допомогою якого атрибута можна розпочати нумерацію списку <ol> із числа 10?',
+          options: [
+            { text: 'start="10"', correct: true },
+            { text: 'begin="10"', correct: false },
+            { text: 'from="10"', correct: false },
+            { text: 'index="10"', correct: false }
+          ],
+          explanation: 'Атрибут start="10" встановлює початкове значення лічильника для нумерованого списку <ol>.'
+        },
+        {
+          q: '5. Що робить атрибут reversed у відкриваючому тегу <ol reversed>?',
+          options: [
+            { text: 'Змінює порядок нумерації пунктів на зворотний (від більшого номера до меншого)', correct: true },
+            { text: 'Перетворює нумерований список на маркований', correct: false },
+            { text: 'Вирівнює текст списку по правому краю сторінки', correct: false },
+            { text: 'Приховує всі номери пунктів на екрані', correct: false }
+          ],
+          explanation: 'Атрибут reversed відображає пункти списку в зворотному порядку нумерації (наприклад, 5, 4, 3, 2, 1).'
+        },
+        {
+          q: '6. Яка комбінація тегів використовується для створення списку означень (термін і його тлумачення)?',
+          options: [
+            { text: '<dl>, <dt>, <dd>', correct: true },
+            { text: '<ul>, <li>, <p>', correct: false },
+            { text: '<ol>, <dt>, <li>', correct: false },
+            { text: '<def>, <term>, <desc>', correct: false }
+          ],
+          explanation: '<dl> — контейнер списку означень, <dt> — термін, <dd> — визначення (опис) терміна.'
+        },
+        {
+          q: '7. Яке значення атрибута type у тегу <ul> встановлює порожні (незафарбовані) кружечки як маркери?',
+          options: [
+            { text: 'type="circle"', correct: true },
+            { text: 'type="disc"', correct: false },
+            { text: 'type="square"', correct: false },
+            { text: 'type="round"', correct: false }
+          ],
+          explanation: 'circle — порожнє коло, disc — зафарбоване коло, square — зафарбований квадрат.'
+        },
+        {
+          q: '8. Як правильно створити вкладений список у HTML згідно зі стандартом?',
+          options: [
+            { text: 'Помістити тег вкладеного списку (<ul> або <ol>) усередину відповідного елемента <li>...</li>', correct: true },
+            { text: 'Вставити тег <ul> або <ol> між закриваючим </li> та наступним відкриваючим <li>', correct: false },
+            { text: 'Використати спеціальний тег <sublist> після закриття основного списку', correct: false },
+            { text: 'У HTML неможливо вкладати нумерований список усередину маркованого', correct: false }
+          ],
+          explanation: 'Дочірній список завжди розміщується всередині батьківського тегу <li>...</li> перед його закриттям </li>.'
+        }
+      ];
+
+      let shuffledQuiz = [];
+      const userAnswers = {};
+
+      /**
+       * Перемішує варіанти відповідей за алгоритмом Фішера — Єйтса
+       * та гарантує рівномірний розподіл правильних відповідей по позиціях 0..3.
+       */
+      function prepareShuffledQuiz() {
+        let attempt = 0;
+        let result = [];
+        let acceptable = false;
+
+        while (!acceptable && attempt < 40) {
+          attempt += 1;
+          const posCounts = [0, 0, 0, 0];
+          let consecutiveFirst = 0;
+          let maxConsecutiveFirst = 0;
+
+          result = baseQuizData.map((item) => {
+            const mixedOpts = fisherYatesShuffle(item.options);
+            const cIdx = mixedOpts.findIndex((o) => o.correct);
+            posCounts[cIdx] += 1;
+
+            if (cIdx === 0) {
+              consecutiveFirst += 1;
+              if (consecutiveFirst > maxConsecutiveFirst) maxConsecutiveFirst = consecutiveFirst;
+            } else {
+              consecutiveFirst = 0;
+            }
+
+            return {
+              q: item.q,
+              options: mixedOpts,
+              correctIndex: cIdx,
+              explanation: item.explanation
+            };
+          });
+
+          const evenlySpread = posCounts.every((cnt) => cnt >= 1 && cnt <= 3);
+          if (maxConsecutiveFirst <= 1 && result[0].correctIndex !== 0 && evenlySpread) {
+            acceptable = true;
+          }
+        }
+
+        return result;
+      }
+
+      const quizContainerEl = document.getElementById('quiz-items-container');
+      const quizAnsweredEl = document.getElementById('quiz-answered-badge');
+      const quizScoreEl = document.getElementById('quiz-score-badge');
+      const quizProgressEl = document.getElementById('quiz-progress-fill');
+      const quizSummaryEl = document.getElementById('quiz-summary-panel');
+
+      function renderQuiz() {
+        let answered = 0;
+        let score = 0;
+
+        shuffledQuiz.forEach((item, idx) => {
+          if (userAnswers[idx] !== undefined) {
+            answered += 1;
+            if (userAnswers[idx] === item.correctIndex) score += 1;
+          }
+        });
+
+        quizAnsweredEl.textContent = `Відповідей: ${answered} / ${shuffledQuiz.length}`;
+        quizScoreEl.textContent = `Бали: ${score} / ${shuffledQuiz.length}`;
+        quizProgressEl.style.width = `${Math.round((answered / shuffledQuiz.length) * 100)}%`;
+
+        if (answered === shuffledQuiz.length) {
+          quizSummaryEl.classList.remove('hidden');
+          let msg = 'Початковий рівень — варто ще раз повторити теги на першій вкладці.';
+          let cls = 'fb-box fb-warn';
+
+          if (score >= 7) {
+            msg = 'Високий рівень! Ви чудово опанували створення всіх видів списків в HTML.';
+            cls = 'fb-box fb-ok';
+          } else if (score >= 5) {
+            msg = 'Достатній рівень! Перегляньте пояснення до запитань, де були неточності.';
+            cls = 'fb-box warm-box';
+          }
+
+          quizSummaryEl.className = cls;
+          quizSummaryEl.innerHTML = `<strong>Підсумок тесту: ${score} із ${shuffledQuiz.length} балів.</strong> ${escapeHtml(msg)}`;
+        } else {
+          quizSummaryEl.classList.add('hidden');
+        }
+
+        const letters = ['А', 'Б', 'В', 'Г'];
+
+        quizContainerEl.innerHTML = shuffledQuiz
+          .map((item, qIdx) => {
+            const chosen = userAnswers[qIdx];
+            const isAnswered = chosen !== undefined;
+            const isRight = isAnswered && chosen === item.correctIndex;
+
+            return `
+              <div class="muted-box" style="margin-bottom: 0.95rem;">
+                <h3 style="margin: 0 0 0.7rem; font-size: 1.05rem; font-weight: 800;">${escapeHtml(item.q)}</h3>
+                <div>
+                  ${item.options
+                    .map((opt, oIdx) => {
+                      let cls = 'quiz-choice-btn btn-alt';
+                      if (isAnswered) {
+                        if (oIdx === item.correctIndex) cls += ' fb-ok';
+                        else if (oIdx === chosen) cls += ' fb-err';
+                      }
+                      return `
+                        <button
+                          type="button"
+                          data-q-idx="${qIdx}"
+                          data-o-idx="${oIdx}"
+                          class="${cls}"
+                        >
+                          <span style="font-weight: 900;">${letters[oIdx]})</span>
+                          <span>${escapeHtml(opt.text)}</span>
+                        </button>
+                      `;
+                    })
+                    .join('')}
+                </div>
+                ${
+                  isAnswered
+                    ? `<div class="fb-box ${isRight ? 'fb-ok' : 'fb-warn'}">
+                        <strong>${isRight ? 'Вірно!' : 'Пояснення:'}</strong> ${escapeHtml(item.explanation)}
+                      </div>`
+                    : ''
+                }
+              </div>
+            `;
+          })
+          .join('');
+
+        quizContainerEl.querySelectorAll('.quiz-choice-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const qIdx = Number(btn.getAttribute('data-q-idx'));
+            const oIdx = Number(btn.getAttribute('data-o-idx'));
+            userAnswers[qIdx] = oIdx;
+            renderQuiz();
+          });
+        });
+      }
+
+      function startNewQuiz(notify) {
+        Object.keys(userAnswers).forEach((k) => delete userAnswers[k]);
+        shuffledQuiz = prepareShuffledQuiz();
+        renderQuiz();
+        if (notify) {
+          showStatus('Варіанти відповідей перемішано за алгоритмом Фішера–Єйтса.', 'ok');
+        }
+      }
+
+      document.getElementById('quiz-restart-btn').addEventListener('click', () => startNewQuiz(true));
+      startNewQuiz(false);
+
+      // =========================================================
+      // NUSH REFLECTION BLOCK
+      // =========================================================
+      let selectedTraffic = '';
+      const trafficLabels = {
+        green: 'Зелений сигнал (усе зрозуміло, можу створити будь-який список)',
+        yellow: 'Жовтий сигнал (тему засвоєно, потрібна практика зі вкладенням)',
+        red: 'Червоний сигнал (потрібна додаткова консультація вчителя)'
+      };
+
+      const trafficBtns = document.querySelectorAll('.traffic-btn');
+      trafficBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          selectedTraffic = btn.getAttribute('data-traffic') || '';
+          trafficBtns.forEach((b) => {
+            const active = b === btn;
+            b.classList.toggle('is-active', active);
+            b.setAttribute('aria-pressed', String(active));
+          });
+        });
+      });
+
+      document.getElementById('save-reflection-btn').addEventListener('click', () => {
+        const keywordInput = document.getElementById('reflection-keyword');
+        const outBox = document.getElementById('reflection-output');
+        const kw = (keywordInput.value || '').trim();
+
+        if (!selectedTraffic && !kw) {
+          showStatus('Оберіть сигнал «Світлофора впевненості» або впишіть ключове слово уроку.', 'warn');
+          return;
+        }
+
+        outBox.classList.remove('hidden');
+        outBox.innerHTML = `
+          <div>Твій вибір світлофора: <strong>${escapeHtml(trafficLabels[selectedTraffic] || 'ще не обрано')}</strong></div>
+          <div style="margin-top: 0.35rem;">Ключове поняття уроку: <strong>${escapeHtml(kw || 'не вказано')}</strong></div>
+        `;
+        showStatus('Підсумок рефлексії НУШ зафіксовано!', 'ok');
+      });
+    })();
+  </script>
+</body>
+</html>
